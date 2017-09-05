@@ -787,7 +787,7 @@ Zabit-Subay';
 
 //echo $a;
 //echo "test";
-
+$a = str_replace(":", "-", $a);
 $array = explode("\n",$a);
 //var_dump($array);
 
