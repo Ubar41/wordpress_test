@@ -11,8 +11,7 @@
 
 
 
-function sayfa_oku($url,$ssl=0,$ssl_version=2,$post=false,$post_field=array()){
-
+function sayfa_oku($url,$ssl=false,$post=false,$post_field=array()){
 /*$post_field = array(
         "txtUserId"=>$id,
     "Password"=>$pw,
@@ -37,7 +36,7 @@ $options = array(
 CURLOPT_RETURNTRANSFER => true,
 CURLOPT_SSL_VERIFYHOST =>$ssl,
 CURLOPT_SSL_VERIFYPEER =>$ssl,
-CURLOPT_SSLVERSION     => $ssl_version,
+//CURLOPT_SSLVERSION     => $ssl_version,
 CURLOPT_FOLLOWLOCATION => true,
 CURLOPT_ENCODING => "",
 CURLOPT_COOKIEFILE=> 'cerez.txt', //çerez yolumuz
@@ -78,7 +77,6 @@ function curl($url, $post = NULL)
         CURLOPT_ENCODING       => "",
         CURLOPT_SSL_VERIFYPEER => FALSE,
         CURLOPT_SSL_VERIFYHOST => FALSE,
-        CURLOPT_SSLVERSION     => 3,
         CURLOPT_MAXREDIRS      => 3,
         CURLOPT_HTTPHEADER     => $http_header,
     ));
@@ -101,25 +99,38 @@ function curl($url, $post = NULL)
         "content"   => $content,
     );
 }
-
-/*$que = curl("https://www.redtube.com");
+/*
+$que = curl("https://www.redtube.com");
 print_r($que);
+
+
 echo "<hr>";
 $que = curl("https://www.porntube.com");
 print_r($que);
 echo "<hr>";
 $que = curl("https://www.pornhub.com");
 print_r($que);
-echo "<hr>";*/
+echo "<hr>";
 
-echo "1<hr>";
-echo sayfa_oku("https://www.redtube.com",1,3);
 echo "2<hr>";
-echo sayfa_oku("https://www.porntube.com",1,3);
+echo sayfa_oku("https://www.porntube.com",2,3);
 echo "3<hr>";
-echo sayfa_oku("https://sustenium.com.tr/",1);
+echo sayfa_oku("https://sustenium.com.tr",2);
 echo "4<hr>";
-echo sayfa_oku("https://www.pornhub.com",1,3);
+echo sayfa_oku("https://www.pornhub.com",2,3);
+*/
+echo "Kategori Listesi<hr>";
+$category = preg_match('#<ul class="videoThumbs five-in-row">(.*?)</ul>#mis',trim(sayfa_oku("https://www.redtube.com/categories",2)),$full_list);
+preg_match_all('#<h2 class="categoryTitle">(.*?)</h2>#mis', $full_list[1], $kategori_list);
+// print_r($kategori_list[1]); /// Kategori Full Liste
+
+echo "Video Listesi<hr>";
+///print_r(trim(sayfa_oku("https://www.redtube.com/redtube/amateur",2)));
+$video_preg = preg_match_all('#<div class="widget-video-holder">(.*?)</div> <!-- /.widget-video-holder -->#mis', trim(sayfa_oku("https://www.redtube.com/redtube/amateur",2)),$video_list);
+
+print_r($video_list[1]);
+///
+
 
 ?>
 
